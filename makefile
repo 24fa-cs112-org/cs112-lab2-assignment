@@ -1,11 +1,33 @@
-all: clean test
+# assignment name (generate executable with this name)
+TARGET = lab2
+TEST_TARGET = tester
+# .cpp files that do not contain a main() function.
+SOURCES = functions.cpp
 
-lab2: tests.cpp functions.cpp
-	g++ --std=c++11 tests.cpp functions.cpp -o lab2
+CPP       = g++ --std=c++11 -c
+CPPFLAGS   = -Wall -I. -g
+LINKER   = g++ -o
+LFLAGS   = -Wall
 
-test: lab2
-	# executes all tests
-	./lab2
+INCLUDES := $(wildcard *.h)
+OBJECTS  := $(SOURCES:.cpp=.o)
+rm       = rm -f
+
+.PHONY: obj clean
+
+$(TARGET): obj main.o
+		$(LINKER) $(TARGET) $(LFLAGS) $(OBJECTS) main.o
+		@echo "Linking complete!"
+
+$(TEST_TARGET): obj tests.o
+		$(LINKER) $(TEST_TARGET) $(LFLAGS) $(OBJECTS) tests.o
+		@echo "Linking complete!"
+
+obj: $(SOURCES) $(INCLUDES) main.cpp tests.cpp
+		$(CPP) $(CPPFLAGS) $(SOURCES) main.cpp tests.cpp
+		@echo "Compilation complete!"
 
 clean:
-	rm -f lab2 *.gch
+		$(rm) $(TARGET) $(TEST_TARGET) $(OBJECTS) main.o tests.o
+		@echo "Cleanup complete!"
+
