@@ -1,5 +1,5 @@
 
-// int main() {
+int main() {
 
     // 1. Ask user for filename to read.
     // 2. Ask user for the number of lines in the file.
@@ -10,5 +10,5 @@
     // 6. Call findDuplicate()
     // 7. Print appropriate output
 
-//     return 0;
-// }
+    return 0;
+}
