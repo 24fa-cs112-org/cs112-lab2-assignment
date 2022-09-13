@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
+            "name": "(gdb) main",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/lab2",
@@ -29,7 +29,7 @@
             ]
         },
         {
-            "name": "(gdb) Launch",
+            "name": "(gdb) tester",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/tester",
