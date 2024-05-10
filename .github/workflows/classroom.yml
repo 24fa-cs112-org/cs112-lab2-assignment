@@ -21,23 +21,40 @@ jobs:
         setup-command: make tester
         command: "./tester -s"
         timeout: 10
-    - name: input tests
-      id: input-tests
+        max-score: 1
+    - name: input test 1
+      id: input-test-1
       uses: classroom-resources/autograding-io-grader@v1
       with:
-        test-name: input tests
+        test-name: input test 1
         setup-command: make
         command: "./lab2"
         input: |-
           in.txt
           6
         expected-output: A duplicate number, 3, has been found!
-        comparison-method: exact
+        comparison-method: contains
         timeout: 10
+        max-score: 1
+    - name: input test 2
+      id: input-test-2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: input test 2
+        setup-command: make
+        command: "./lab2"
+        input: |-
+          in2.txt
+          2
+        expected-output: No duplicate number was found.
+        comparison-method: contains
+        timeout: 10
+        max-score: 1
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         TESTER-TESTS_RESULTS: "${{steps.tester-tests.outputs.result}}"
-        INPUT-TESTS_RESULTS: "${{steps.input-tests.outputs.result}}"
+        INPUT-TEST-1_RESULTS: "${{steps.input-test-1.outputs.result}}"
+        INPUT-TEST-2_RESULTS: "${{steps.input-test-2.outputs.result}}"
       with:
-        runners: tester-tests,input-tests
+        runners: tester-tests,input-test-1,input-test-2
