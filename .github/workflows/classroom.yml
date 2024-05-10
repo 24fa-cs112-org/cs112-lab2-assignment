@@ -1,0 +1,43 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: tester tests
+      id: tester-tests
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: tester tests
+        setup-command: make tester
+        command: "./tester -s"
+        timeout: 10
+    - name: input tests
+      id: input-tests
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: input tests
+        setup-command: make
+        command: "./lab2"
+        input: |-
+          in.txt
+          6
+        expected-output: A duplicate number, 3, has been found!
+        comparison-method: exact
+        timeout: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TESTER-TESTS_RESULTS: "${{steps.tester-tests.outputs.result}}"
+        INPUT-TESTS_RESULTS: "${{steps.input-tests.outputs.result}}"
+      with:
+        runners: tester-tests,input-tests
