@@ -32,7 +32,7 @@ jobs:
         input: |-
           in.txt
           6
-        expected-output: A duplicate number, 3, has been found!
+        expected-output: A duplicate number, 3, has been found.
         comparison-method: contains
         timeout: 10
         max-score: 1
