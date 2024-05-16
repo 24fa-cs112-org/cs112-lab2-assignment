@@ -22,31 +22,87 @@ jobs:
         command: "./tester -s"
         timeout: 10
         max-score: 1
-    - name: input test 1
-      id: input-test-1
+    - name: input 0
+      id: input-0
       uses: classroom-resources/autograding-io-grader@v1
       with:
-        test-name: input test 1
+        test-name: input 0
         setup-command: make
         command: "./lab2"
         input: |-
-          in.txt
+          input_files/in0.txt
+          0
+        expected-output: No duplicate number was found.
+        comparison-method: contains
+        timeout: 10
+        max-score: 1
+    - name: input 1
+      id: input-1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: input 1
+        setup-command: make
+        command: "./lab2"
+        input: |-
+          input_files/in1.txt
+          1
+        expected-output: No duplicate number was found.
+        comparison-method: contains
+        timeout: 10
+        max-score: 1
+    - name: no duplicate
+      id: no-duplicate
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: no duplicate
+        setup-command: make
+        command: "./lab2"
+        input: |-
+          input_files/in4.txt
+          4
+        expected-output: No duplicate number was found.
+        comparison-method: contains
+        timeout: 10
+        max-score: 1
+    - name: front duplicate
+      id: front-duplicate
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: front duplicate
+        setup-command: make
+        command: "./lab2"
+        input: |-
+          input_files/in5.txt
+          5
+        expected-output: A duplicate number, 91, has been found.
+        comparison-method: contains
+        timeout: 10
+        max-score: 1
+    - name: middle duplicate
+      id: middle-duplicate
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: middle duplicate
+        setup-command: make
+        command: "./lab2"
+        input: |-
+          input_files/in6.txt
           6
         expected-output: A duplicate number, 3, has been found.
         comparison-method: contains
         timeout: 10
         max-score: 1
-    - name: input test 2
-      id: input-test-2
+    - name: end duplicate
+      id: end-duplicate
       uses: classroom-resources/autograding-io-grader@v1
       with:
-        test-name: input test 2
+        test-name: end duplicate
         setup-command: make
         command: "./lab2"
         input: |-
-          in2.txt
-          2
-        expected-output: No duplicate number was found.
+          input_files/in7.txt
+          7
+        expected-output: A duplicate number, 2024, has been found.
         comparison-method: contains
         timeout: 10
         max-score: 1
@@ -54,7 +110,11 @@ jobs:
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         TESTER-TESTS_RESULTS: "${{steps.tester-tests.outputs.result}}"
-        INPUT-TEST-1_RESULTS: "${{steps.input-test-1.outputs.result}}"
-        INPUT-TEST-2_RESULTS: "${{steps.input-test-2.outputs.result}}"
+        INPUT-0_RESULTS: "${{steps.input-0.outputs.result}}"
+        INPUT-1_RESULTS: "${{steps.input-1.outputs.result}}"
+        NO-DUPLICATE_RESULTS: "${{steps.no-duplicate.outputs.result}}"
+        FRONT-DUPLICATE_RESULTS: "${{steps.front-duplicate.outputs.result}}"
+        MIDDLE-DUPLICATE_RESULTS: "${{steps.middle-duplicate.outputs.result}}"
+        END-DUPLICATE_RESULTS: "${{steps.end-duplicate.outputs.result}}"
       with:
-        runners: tester-tests,input-test-1,input-test-2
+        runners: tester-tests,input-0,input-1,no-duplicate,front-duplicate,middle-duplicate,end-duplicate
